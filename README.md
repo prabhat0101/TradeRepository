@@ -1,9 +1,9 @@
 # TradeRepository
 Technologies Used: 
-   .net framework 4.6
-   Asp.net Web API2
-   SQLite
-   Log4Net
+   .net framework 4.6,
+   Asp.net Web API2,
+   SQLite,
+   Log4Net,
    MSTest Unit Testing Framework
 
 # Project Components:
