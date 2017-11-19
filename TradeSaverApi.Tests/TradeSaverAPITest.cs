@@ -11,6 +11,10 @@ using System.Text;
 using TradeLoader.API.Models;
 using System.Collections.Generic;
 using System.Linq;
+using RestBus.RabbitMQ.Client;
+using RestBus.RabbitMQ;
+using RestBus.Client;
+using TradeRepo.Data.Models;
 
 namespace TradeSaverApi.Tests
 {
@@ -23,27 +27,43 @@ namespace TradeSaverApi.Tests
         public async Task FrontOfficeKPlusTradeSaveTest()
         {
             // Arrange
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var amqpUrlcli = "amqp://localhost:5672"; //AMQP URL for RabbitMQ installation
+            var serviceNamecli = "tradeSaver"; //The unique identifier for the target service
 
+            var msgMappercli = new BasicMessageMapper(amqpUrlcli, serviceNamecli);
+            using (var client = new RestBusClient(msgMappercli))
+            {                
                 JObject oJsonObject = new JObject();
                 oJsonObject.Add("SourceApplication", "KPlus");
                 oJsonObject.Add("Portfolio", "ref123");
                 oJsonObject.Add("CounterParty", "abcd");
-                oJsonObject.Add("Id", "WAY-12589");
+                oJsonObject.Add("Id", "WAY-12112018");
                 oJsonObject.Add("Owner", "MUBE");
                 oJsonObject.Add("BookingDate", DateTime.Today.ToShortDateString());
                 oJsonObject.Add("ValueDate", DateTime.Today.ToShortDateString());
                 oJsonObject.Add("MaturityDate", DateTime.Today.ToShortDateString());
 
-                var response = client.PostAsync(baseAddress + "api/trades", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
-                response.EnsureSuccessStatusCode();
-                //Console.WriteLine(response);
-                var result = response.Content.ReadAsStringAsync().Result;
-                // Assert
-                Assert.AreEqual("http://localhost:9000/api/trades/WAY-12589", response.Headers.Location.AbsoluteUri);
+                RequestOptions requestOptions = null;
+
+                //Uncomment this section to get a response in JSON format
+
+                requestOptions = new RequestOptions();
+                requestOptions.Headers.Add("Accept", "application/json");
+
+
+                //Send Request                
+                var busresponse = client.PostAsync(baseAddress + "api/trades", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
+
+                //Display response
+                Console.WriteLine(busresponse.StatusCode);
+                Console.WriteLine(busresponse.Content.ReadAsStringAsync().Result);
+
+                //Assert Response                    
+                var result = busresponse.Content.ReadAsStringAsync().Result;
+                TradeLoaderResponse tmp = JsonConvert.DeserializeObject<TradeLoaderResponse>(result);
+                Assert.AreEqual(1, tmp.Trades.Count());
+                Assert.AreEqual("WAY-12112018", tmp.Trades.ToList()[0].Id);              
+                
             }
 
         }
@@ -52,20 +72,34 @@ namespace TradeSaverApi.Tests
         public async Task FrontOfficeKPlusTradeLoadTest()
         {
             string baseLoadAddress = "http://localhost:8000/";
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var amqpUrlcli = "amqp://localhost:5672"; //AMQP URL for RabbitMQ installation
+            var serviceNamecli = "trades"; //The unique identifier for the target service
 
+            var msgMappercli = new BasicMessageMapper(amqpUrlcli, serviceNamecli);
+            using (var busClient = new RestBusClient(msgMappercli))
+            {   
                 JObject oJsonObject = new JObject();
                 oJsonObject.Add("source", "KPlus");
                 oJsonObject.Add("tradeids", "1234,12345");
-                oJsonObject.Add("fields", "ID,Portfolio,CounterParty");
+                oJsonObject.Add("fields", "ID,Portfolio,CounterParty");    
+
+                RequestOptions requestOptions = null;
+
+                //Uncomment this section to get a response in JSON format
+
+                requestOptions = new RequestOptions();
+                requestOptions.Headers.Add("Accept", "application/json");
 
 
-                var response = client.PostAsync(baseLoadAddress + "api/tradeloader", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
-                response.EnsureSuccessStatusCode();
-                var result = response.Content.ReadAsStringAsync().Result;
+                //Send Request                
+                var busresponse = busClient.PostAsync(baseLoadAddress + "api/tradeloader", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
+                
+                //Display response
+                Console.WriteLine(busresponse.StatusCode);
+                Console.WriteLine(busresponse.Content.ReadAsStringAsync().Result);
+
+                //Assert response                    
+                var result = busresponse.Content.ReadAsStringAsync().Result;
                 TradeLoaderResponse tmp = JsonConvert.DeserializeObject<TradeLoaderResponse>(result);
                 Assert.AreEqual(2, tmp.Trades.Count());
                 Assert.AreEqual("1234", tmp.Trades.ToList()[0].Id);

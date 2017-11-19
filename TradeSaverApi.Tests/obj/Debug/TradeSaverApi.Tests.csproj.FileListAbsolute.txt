@@ -50,3 +50,13 @@ D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\System.Data.SQLite.dll.config
 D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\Microsoft.Owin.xml
 D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\log4net.dll
 D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\log4net.xml
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RabbitMQ.Client.dll
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.Client.dll
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.Common.dll
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.RabbitMQ.dll
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.WebApi.dll
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RabbitMQ.Client.xml
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.Client.xml
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.Common.xml
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.RabbitMQ.xml
+D:\TradeRepo\TradeSaverApi.Tests\bin\Debug\RestBus.WebApi.xml

@@ -16,3 +16,5 @@ D:\TradeRepo\TradeRepo.Data\bin\Debug\System.Data.SQLite.dll.config
 D:\TradeRepo\TradeRepo.Data\obj\Debug\TradeRepo.Data.csprojResolveAssemblyReference.cache
 D:\TradeRepo\TradeRepo.Data\bin\Debug\log4net.dll
 D:\TradeRepo\TradeRepo.Data\bin\Debug\log4net.xml
+D:\TradeRepo\TradeRepo.Data\bin\Debug\Newtonsoft.Json.dll
+D:\TradeRepo\TradeRepo.Data\bin\Debug\Newtonsoft.Json.xml

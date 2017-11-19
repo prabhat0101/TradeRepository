@@ -46,6 +46,18 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RestBus.Client, Version=0.5.2.0, Culture=neutral, PublicKeyToken=f33c33fada5d6e6b, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestBus.Client.0.5.2\lib\portable-net45+dnxcore50+win\RestBus.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RestBus.Common, Version=0.6.3.0, Culture=neutral, PublicKeyToken=f33c33fada5d6e6b, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestBus.Common.0.6.3\lib\portable-net45+dnxcore50+win\RestBus.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="RestBus.RabbitMQ, Version=0.6.9.0, Culture=neutral, PublicKeyToken=f33c33fada5d6e6b, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestBus.RabbitMQ.0.6.9\lib\net45\RestBus.RabbitMQ.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />

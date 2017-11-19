@@ -1,6 +1,11 @@
 ﻿using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestBus.Client;
+using RestBus.RabbitMQ;
+using RestBus.RabbitMQ.Client;
+using RestBus.RabbitMQ.Subscription;
+using RestBus.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,36 +21,30 @@ namespace OWINSelfHostApp
     {
         static void Main(string[] args)
         {
+
             string baseAddress = "http://localhost:9000/";
-
+            //Initialize startup object
+            var startup = new Startup();
             // Start OWIN host 
-            using (WebApp.Start<Startup>(url: baseAddress))
+            using (WebApp.Start(url: baseAddress, startup: startup.Configuration))
             {
-                //using (var client = new HttpClient())
-                //{                    
-                //    client.DefaultRequestHeaders.Accept.Clear();
-                //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                //    JObject oJsonObject = new JObject();
-                //    oJsonObject.Add("SourceApplication", "KPlus");
-                //    oJsonObject.Add("Portfolio", "ref123");
-                //    oJsonObject.Add("CounterParty", "abcd");
-                //    oJsonObject.Add("Id", "1234");
-                //    oJsonObject.Add("Owner", "MUBE");
-                //    oJsonObject.Add("BookingDate", DateTime.Today.ToShortDateString());
-                //    oJsonObject.Add("ValueDate", DateTime.Today.ToShortDateString());
-                //    oJsonObject.Add("MaturityDate", DateTime.Today.ToShortDateString());
-
-                //    var response =  client.PostAsync(baseAddress + "api/trades", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
-                //    response.EnsureSuccessStatusCode();                    
-                //    Console.WriteLine(response);
-                //    Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-                Console.WriteLine("Starting web Server...");                
+                Console.WriteLine("Starting web Server...");
                 Console.WriteLine("Server running at {0} - press Enter to quit. ", baseAddress);
-                Console.ReadLine();
 
-                //}
+                //Start RestBus Subscriber/host
+                var amqpUrl = "amqp://localhost:5672"; //AMQP URI for RabbitMQ server
+                var serviceName = "tradeSaver"; //Uniquely identifies this service
+
+                var msgMapper = new BasicMessageMapper(amqpUrl, serviceName);
+                var subscriber = new RestBusSubscriber(msgMapper);
+                using (var host = new RestBusHost(subscriber, startup.Config))
+                {
+                    host.Start();
+                    Console.ReadLine();                    
+                }
+
             }
         }
     }
 }
+
