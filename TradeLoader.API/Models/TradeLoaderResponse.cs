@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradeRepo.Data.Models;
 
-namespace TradeRepo.Data.Models
+namespace TradeLoader.API.Models
 {
     public class TradeLoaderResponse
     {

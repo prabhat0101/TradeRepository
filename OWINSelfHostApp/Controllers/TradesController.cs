@@ -13,8 +13,7 @@ namespace TradeSaverApi.Controllers
 {
     public class TradesController : ApiController
     {
-
-        [ResponseType(typeof(TradeLoaderResponse))]
+        [HttpPost]        
         public IHttpActionResult PostNewTrade(JObject jtrade)
         {
             log4net.Config.BasicConfigurator.Configure();
@@ -41,7 +40,7 @@ namespace TradeSaverApi.Controllers
                 log.Error(ex.ToString());
                 return NotFound();
             }
-            return Ok(new TradeLoaderResponse(new List<Trade> { tradeToSave }));
+            return Ok(tradeToSave);
         }
     }
 }

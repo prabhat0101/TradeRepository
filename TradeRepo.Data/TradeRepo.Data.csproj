@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="ITradeServicePlugin.cs" />
     <Compile Include="Models\Trade.cs" />
-    <Compile Include="Models\TradeLoaderResponse.cs" />
     <Compile Include="Plugins\SQLLiteTradeServicePlugin.cs" />
     <Compile Include="TradeService.cs" />
     <Compile Include="ITradeService.cs" />

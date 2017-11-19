@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Controllers\TradeLoaderController.cs" />
     <Compile Include="Models\FilterCriteria.cs" />
+    <Compile Include="Models\TradeLoaderResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

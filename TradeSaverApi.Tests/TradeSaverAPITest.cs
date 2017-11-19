@@ -37,7 +37,7 @@ namespace TradeSaverApi.Tests
                 oJsonObject.Add("SourceApplication", "KPlus");
                 oJsonObject.Add("Portfolio", "ref123");
                 oJsonObject.Add("CounterParty", "abcd");
-                oJsonObject.Add("Id", "WAY-12112018");
+                oJsonObject.Add("Id", "WAY-111118");
                 oJsonObject.Add("Owner", "MUBE");
                 oJsonObject.Add("BookingDate", DateTime.Today.ToShortDateString());
                 oJsonObject.Add("ValueDate", DateTime.Today.ToShortDateString());
@@ -55,15 +55,12 @@ namespace TradeSaverApi.Tests
                 var busresponse = client.PostAsync(baseAddress + "api/trades", new StringContent(oJsonObject.ToString(), Encoding.UTF8, "application/json")).Result;
 
                 //Display response
-                Console.WriteLine(busresponse.StatusCode);
+                Assert.AreEqual("OK",busresponse.StatusCode.ToString());
                 Console.WriteLine(busresponse.Content.ReadAsStringAsync().Result);
 
                 //Assert Response                    
                 var result = busresponse.Content.ReadAsStringAsync().Result;
-                TradeLoaderResponse tmp = JsonConvert.DeserializeObject<TradeLoaderResponse>(result);
-                Assert.AreEqual(1, tmp.Trades.Count());
-                Assert.AreEqual("WAY-12112018", tmp.Trades.ToList()[0].Id);              
-                
+                Assert.AreEqual(true, result.Contains("WAY"));    
             }
 
         }
