@@ -2,6 +2,7 @@
 Technologies Used: 
    .net framework 4.6,
    Asp.net Web API2,
+   RabbitMQ,
    SQLite,
    Log4Net,
    MSTest Unit Testing Framework
